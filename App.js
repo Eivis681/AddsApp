@@ -3,20 +3,26 @@ import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import { Component } from 'react';
-import LoginPage from './src/LoginPage';
-import UpdateItem from './src/UpdateItem';
-import RegisterPage from './src/RegisterPage';
-import AddAdPage from './src/AddAdPage';
-import HomePage from './src/HomePage';
-import ItemView from './src/ItemView';
-import AllItemView from './src/AllItemView';
+import LoginPage from './src/screens/LoginPage';
+import UpdateItem from './src/screens/UpdateItem';
+import RegisterPage from './src/screens/RegisterPage';
+import AddAdPage from './src/screens/AddAdPage';
+import HomePage from './src/screens/HomePage';
+import ItemView from './src/screens/ItemView';
+import AllItemView from './src/screens/AllItemView';
+import {Provider} from 'react-redux';
+import {createStore, applyMiddleware} from 'redux';
+import combinedReducers from './store/reducers/index';
+import ReduxThunk from 'redux-thunk';
 
 
 const Stack = createStackNavigator();
+const store = createStore(combinedReducers, applyMiddleware(ReduxThunk));
 
 export default class App extends Component{
   render(){
     return(
+      <Provider store= {store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName ="Login">
           <Stack.Screen name ="Login" component= {LoginPage}/>
@@ -28,6 +34,7 @@ export default class App extends Component{
           <Stack.Screen name ="Item" component= {AllItemView}/>
         </Stack.Navigator>
       </NavigationContainer>
+      </Provider>
     );
   }
 }

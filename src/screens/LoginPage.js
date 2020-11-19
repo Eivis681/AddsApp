@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TextInput,TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import {connect} from 'react-redux';
+import {loginUser} from '../../store/actions/userAuthAction'
 
 
 class LoginPage extends Component {
     constructor(){
         super();
         this.state={
-            username:"",
-            password:"",
-      }
+            username:'',
+            password:'',
+      };
     }
 
       usernameValue = (text) =>{
@@ -39,6 +41,17 @@ class LoginPage extends Component {
         // }
         this.props.navigation.navigate('Home')
       };
+
+      handleSubmit = () => {
+        this.props.loginUser(this.state.username, this.state.password, () => {
+          console.log('Login ' + this.props.login.isLoggedIn);
+          if (this.props.login.isLoggedIn === true) {
+            this.props.navigation.navigate('Home');
+          } else {
+            Alert.alert('Wrong credentials');
+          }
+        });
+      };
       
     render(){
         return( 
@@ -64,7 +77,7 @@ class LoginPage extends Component {
                 <Text style={styles.label}>Remember me</Text>
                 </View>
                 <TouchableOpacity 
-                onPress={this.chekIfEmpty}
+                onPress={this.handleSubmit}
                 style={styles.loginBtn}>
                     <Text style={styles.loginText}>LOGIN</Text>
                 </TouchableOpacity>
@@ -122,4 +135,10 @@ const styles = StyleSheet.create({
         margin: 8,
       },
 });
-export default LoginPage;
+const mapStateToProps = (state) => {
+  return {
+    user: state.users,
+    login: state.login,
+  };
+};
+export default connect(mapStateToProps, {loginUser})(LoginPage);

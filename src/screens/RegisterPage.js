@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, TextInput, Alert} from 'react-native';
 import 'react-native-gesture-handler';
+import {connect} from 'react-redux';
+import {addUser} from "../../store/actions/addAction";
+import {v4 as uuidv4} from 'uuid';
 
 class RegisterPage extends Component {
     constructor(){
         super();
         this.state={
-            username:"",
-            password:"",
-            repeatPassword:"",
+            username:'',
+            password:'',
+            repeatPassword:'',
       }
     }
     
@@ -49,7 +52,8 @@ class RegisterPage extends Component {
             alert('Passwords does not match');
             return;
         }
-        // chekc if usser exist if not add to database 
+        this.props.addUser(this.state.username,this.state.password)
+        this.props.addUser
         Alert.alert(
             'Registration',
             'Your registration has been su successful',
@@ -128,5 +132,10 @@ const styles = StyleSheet.create({
         marginBottom:10
       },
 });
-    
-export default RegisterPage;
+
+const mapStateToProps = (state) => {
+    return {
+      user: state.users,
+    };
+  };  
+export default connect(mapStateToProps, {addUser})(RegisterPage);
