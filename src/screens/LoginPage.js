@@ -6,8 +6,8 @@ import {loginUser} from '../../store/actions/userAuthAction'
 
 
 class LoginPage extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
             username:'',
             password:'',
@@ -44,7 +44,6 @@ class LoginPage extends Component {
 
       handleSubmit = () => {
         this.props.loginUser(this.state.username, this.state.password, () => {
-          console.log('Login ' + this.props.login.isLoggedIn);
           if (this.props.login.isLoggedIn === true) {
             this.props.navigation.navigate('Home');
           } else {

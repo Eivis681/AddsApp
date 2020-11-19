@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {View, Text,TouchableOpacity,StyleSheet,TextInput,Alert} from 'react-native';
+import {addAdd} from '../../store/actions/addAction'
 import 'react-native-gesture-handler';
 
 class AddAdPage extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
             title:"",
             description:"",
@@ -52,13 +53,8 @@ class AddAdPage extends Component {
             alert('Please Enter Price');
             return;
         }
-
-        else if (this.state.password!=this.state.repeatPassword)
-        {
-            alert('Passwords does not match');
-            return;
-        }
-
+        this.props.addAdd(this.state.title,this.state.description,this.state.phoneNumber,this.state.price,this.state.price)
+        this.setState({title:'',description:'',phoneNumber:'',price:''})
         Alert.alert(
             'ADD ADVERTISEMENT',
             'Your item has been added successfully',

@@ -6,8 +6,8 @@ import {addUser} from "../../store/actions/addAction";
 import {v4 as uuidv4} from 'uuid';
 
 class RegisterPage extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
             username:'',
             password:'',
@@ -53,7 +53,7 @@ class RegisterPage extends Component {
             return;
         }
         this.props.addUser(this.state.username,this.state.password)
-        this.props.addUser
+
         Alert.alert(
             'Registration',
             'Your registration has been su successful',
