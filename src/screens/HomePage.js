@@ -2,11 +2,34 @@ import React, { Component } from "react";
 import {useState} from "react";
 import { StyleSheet, View, Text , TouchableOpacity} from "react-native";
 import CheckBox from '@react-native-community/checkbox';
+import {connect} from 'react-redux';
+import {showAll, showMy} from '../../store/actions/getAction';
 
 
 class HomePage extends Component {
-    render(){
-        
+    componentDidCatch(){
+      this.props.showAll();
+    }
+  
+  render(){
+    const {adds} = this.props;
+    const username = this.props.route.params.username;
+
+      const renderAllAddItem=(itemData)=>{
+        return(
+          <View>
+            <TouchableOpacity 
+            onPress={()=>this.props.navigation.navigate('My Item')
+            }
+            style={styles.loginBtn}>
+                <Text style={styles.loginText}>PREKE</Text>
+            </TouchableOpacity>
+          </View>
+        );
+      };
+
+     
+      
   return (
     <View style={styles.container}>
         <View style={styles.checkboxContainer}>
@@ -22,14 +45,16 @@ class HomePage extends Component {
         <Text style={styles.label}>All advertisements</Text>
         </View>
               <TouchableOpacity
-                    onPress={()=> this.props.navigation.navigate('Add advertisements')}
+                    onPress={()=> this.props.navigation.navigate('Add advertisements',{
+                      username: username,
+                    })}
                      style={styles.loginBtn}>
                     <Text style={styles.loginText}>ADD ADVERTISEMENT</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={()=> this.props.navigation.navigate('My Item')}
                      style={styles.loginBtn}>
-                    <Text style={styles.loginText}>PREKE</Text>
+                    <Text style={styles.loginText}>{username}</Text>
                 </TouchableOpacity>
     </View>
   );
@@ -84,4 +109,10 @@ const styles = StyleSheet.create({
           },
     });
 
-export default HomePage;
+    const mapStateToProps = (state)=>{
+      return{
+        adds: state.adds,
+      };
+    };
+export default connect(mapStateToProps,{showAll,showMy})(HomePage);
+

@@ -23,6 +23,12 @@ export const addReducer = (state = initialState, action) => {
           console.log(action.payload.item(i));
         }
         return {adds: [...state.adds, ...addList]};
+      case 'SHOW_MY':
+          const addMyList=[];
+          for (let i=0; i< action.payload.length;i++)
+          {
+
+          }
       case 'DELETE_ADD':
         const index = state.adds.findIndex((add) => add.id === action.payload.id);
         return {

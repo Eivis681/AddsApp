@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {View, Text,TouchableOpacity,StyleSheet,TextInput,Alert} from 'react-native';
-import {addAdd} from '../../store/actions/addAction'
+
+import {connect} from 'react-redux';
 import 'react-native-gesture-handler';
+import {addAdd} from '../../store/actions/addAction';
 
 class AddAdPage extends Component {
     constructor(props){
@@ -10,9 +12,10 @@ class AddAdPage extends Component {
             title:"",
             description:"",
             phoneNumber:"",
-            price:""
+            price:"",
       }
     }
+    
     titleValue=(text)=>{
         this.setState({
             title:text,
@@ -35,6 +38,7 @@ class AddAdPage extends Component {
     };
 
     checkIfEmpty  = ()=>{
+        const username = this.props.route.params.username;
         if (this.state.title.trim()=="") {
             alert('Please Enter Item Name');
             return;
@@ -53,7 +57,7 @@ class AddAdPage extends Component {
             alert('Please Enter Price');
             return;
         }
-        this.props.addAdd(this.state.title,this.state.description,this.state.phoneNumber,this.state.price,this.state.price)
+        addAdd(this.state.title,this.state.description,this.state.phoneNumber,this.state.price,username)
         this.setState({title:'',description:'',phoneNumber:'',price:''})
         Alert.alert(
             'ADD ADVERTISEMENT',
@@ -68,6 +72,7 @@ class AddAdPage extends Component {
       };
 
     render(){
+        
         return( 
         <View style={styles.container}>
             <View style={styles.inputView} >
@@ -139,4 +144,12 @@ const styles = StyleSheet.create({
         marginBottom:10
       },
 });
-export default AddAdPage;
+
+const mapStateToProps = (state) =>{
+    return{
+        adds: state.adds,
+    };
+};
+export default connect(mapStateToProps,{addAdd})(AddAdPage);
+
+//

@@ -26,26 +26,28 @@ class LoginPage extends Component {
         });
       };
 
-      chekIfEmpty =()=>{
-        // if (this.state.username.trim()=="") {
-        //     alert('Please Enter Username');
-        //     return;
-        // }
-        // if (this.state.password.trim()=="") {
-        //     alert('Please Enter Password');
-        //     return;
-        // }
-        // else {
-            //chekc if credentials are of if so navigate to home screen 
-        //     this.props.navigation.navigate('Home')
-        // }
-        this.props.navigation.navigate('Home')
-      };
+      // chekIfEmpty =()=>{
+      //   if (this.state.username.trim()=="") {
+      //       alert('Please Enter Username');
+      //       return;
+      //   }
+      //   if (this.state.password.trim()=="") {
+      //       alert('Please Enter Password');
+      //       return;
+      //   }
+      //   else {
+      //       chekc if credentials are of if so navigate to home screen 
+      //       this.props.navigation.navigate('Home')
+      //   }
+      //   this.props.navigation.navigate('Home')
+      // };
 
       handleSubmit = () => {
         this.props.loginUser(this.state.username, this.state.password, () => {
           if (this.props.login.isLoggedIn === true) {
-            this.props.navigation.navigate('Home');
+            this.props.navigation.navigate('Home',{
+              username: this.state.username,
+            });
           } else {
             Alert.alert('Wrong credentials');
           }
