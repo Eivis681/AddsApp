@@ -2,29 +2,60 @@ import * as SQLite from 'expo-sqlite';
 import { FileSystem } from 'expo-file-system'
 import {Asset} from "expo-asset";
 
-const db = SQLite.openDatabase('reactDb.db');
-db.transaction((tx) => {
-  tx.executeSql(
-    'CREATE TABLE User ("id" INTIGER, "Username" TEXT, "Password" TEXT, PRIMARY KEY("id"))',
-  );
-});
+const db = SQLite.openDatabase('aaddsss.db');
 
-db.transaction((tx) => {
-  tx.executeSql(
-    'CREATE TABLE Adds ("id" INTIGER, "Title" TEXT, "Description" TEXT, , "PhoneNumber" TEXT, "Price" TEXT,"UserId" TEXT, PRIMARY KEY("id"))',
-  );
-});
-
-export const init = () => {
-    db;
+ export const init = () => {
+  const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        'CREATE TABLE Adds ("id" INTIGER, "Title" TEXT, "Description" TEXT, , "PhoneNumber" TEXT, "Price" TEXT,"UserId" TEXT, PRIMARY KEY("id"))',
+        'CREATE TABLE IF NOT EXISTS Adds ("id" INTIGER, "Title" TEXT, "Description" TEXT, "PhoneNumber" TEXT, "Price" TEXT,"UserId" TEXT, PRIMARY KEY("id"))',
+        [],
+        () => {
+          resolve();
+        },
+        (_, err) => {
+          reject(err);
+        },
       );
     });
+  });
+  return promise;
   };
 
+  export const inita = () => {
+    const promise = new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'CREATE TABLE IF NOT EXISTS User ("id" INTIGER, "Username" TEXT, "Password" TEXT, PRIMARY KEY("id"))',
+          [],
+          () => {
+            resolve();
+          },
+          (_, err) => {
+            reject(err);
+          },
+        );
+      });
+    });
+    return promise;
+  
+    
+  
+  
+      // db.transaction((tx) => {
+      //   tx.executeSql(
+      //     'CREATE TABLE Adds ("id" INTIGER, "Title" TEXT, "Description" TEXT, , "PhoneNumber" TEXT, "Price" TEXT,"UserId" TEXT, PRIMARY KEY("id"))',
+      //   );
+      // });
+      // db.transaction((tx) => {
+      //   tx.executeSql(
+      //     'CREATE TABLE User ("id" INTIGER, "Username" TEXT, "Password" TEXT, PRIMARY KEY("id"))',
+      //   );
+      // });
+    };
+
   export const userLogin = (username, password) => {
+    init()
     const promise = new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -43,6 +74,8 @@ export const init = () => {
   };
 
   export const createUser = (username, password) => {
+    init();
+    inita();
     const promise = new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -83,11 +116,11 @@ export const init = () => {
   export const insertAdd = (title, description, phoneNumber, price, userId) => {
     const promise = new Promise((resolve, reject) => {
       db.transaction((tx) => {
-        tx.executeSql('CREATE TABLE IF NOT EXISTS Adds ("id" INTIGER, "Title" TEXT, "Description" TEXT, , "PhoneNumber" TEXT, "Price" TEXT,"UserId" TEXT, PRIMARY KEY("id"))')
         tx.executeSql(
           'INSERT INTO Adds (Title, Description, PhoneNumber, Price, UserId) VALUES (?, ?, ?, ?, ?)',
           [title, description, phoneNumber, price, userId],
           (_, result) => {
+            console.log(result)
             resolve(result);
           },
           (_, err) => {
@@ -99,12 +132,12 @@ export const init = () => {
     return promise;
   };
 
-  export const UpdateAdd = (title, description, phoneNumber, price, userId) => {
+  export const UpdateAdd = (title, description, phoneNumber, price, id) => {
     const promise = new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          'UPDATE Adds (Title, Description, PhoneNumber, Price, UserId) VALUES (?, ?, ?, ?, ?);',
-          [title, description, phoneNumber, price, userId],
+          'UPDATE Adds SET Title = ?, Description = ?, PhoneNumber = ?, Price= ? WHERE id = ?',
+          [title, description, phoneNumber, price, id],
           (_, result) => {
             resolve(result);
           },

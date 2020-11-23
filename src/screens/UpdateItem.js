@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet,TextInput, Alert,TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import 'react-native-gesture-handler';
+import {connect} from 'react-redux';
+import {updateAdd} from '../../store/actions/addAction';
 
 class UpdateItem extends Component {
     constructor(){
@@ -35,6 +37,7 @@ class UpdateItem extends Component {
     };
 
     checkIfEmpty  = ()=>{
+        const id = this.props.route.params.id;
         if (this.state.title.trim()=="") {
             alert('Please Enter Title');
             return;
@@ -59,20 +62,27 @@ class UpdateItem extends Component {
             alert('Passwords does not match');
             return;
         }
-
-        Alert.alert(
-            'UPDATE ADVERTISEMENT',
-            'Your item has been successfully updated',
-            [
-                {
-                    text: 'OK',
-                    onPress: () =>this.props.navigation.goBack()
-                },
-            ]
-        )
+        //alert(this.state.description);
+        this.props.updateAdd(this.state.title, this.state.description, this.state.phoneNumber, this.state.price,id)
+        // Alert.alert(
+        //     'UPDATE ADVERTISEMENT',
+        //     'Your item has been successfully updated',
+        //     [
+        //         {
+        //             text: 'OK',
+        //             onPress: () =>this.props.navigation.goBack()
+        //         },
+        //     ]
+        // )
       };
 
     render(){
+        
+        const title= this.props.route.params.title;
+        const description= this.props.route.params.description;
+        const phoneNumber= this.props.route.params.phoneNumber;
+        const price= this.props.route.params.price;
+        
         return( 
         <View style={styles.container}>
             <View style={styles.inputView} >
@@ -103,7 +113,6 @@ class UpdateItem extends Component {
               placeholderTextColor="#003f5c"
               onChangeText={this.priceValue}/>
               </View>
-
                 <TouchableOpacity 
                 onPress={this.checkIfEmpty}
                 style={styles.loginBtn}>
@@ -145,4 +154,12 @@ const styles = StyleSheet.create({
         marginBottom:10
       },
 });
-export default UpdateItem;
+
+const mapStateToProps = (state)=>{
+    return{
+      adds: state.adds,
+    };
+  };
+
+export default connect(mapStateToProps,{updateAdd})(UpdateItem);
+//UpdateItem;

@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TextInput,TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {connect} from 'react-redux';
 import {loginUser} from '../../store/actions/userAuthAction'
+import {init} from '../helpers/db';
 
 
 class LoginPage extends Component {
@@ -43,6 +44,7 @@ class LoginPage extends Component {
       // };
 
       handleSubmit = () => {
+        init()
         this.props.loginUser(this.state.username, this.state.password, () => {
           if (this.props.login.isLoggedIn === true) {
             this.props.navigation.navigate('Home',{

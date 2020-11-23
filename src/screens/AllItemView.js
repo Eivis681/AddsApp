@@ -6,23 +6,29 @@ import 'react-native-gesture-handler';
 class AllItemView extends Component {
     
     render(){
+        const id = this.props.route.params.id;
+        const title= this.props.route.params.title;
+        const description= this.props.route.params.description;
+        const phoneNumber= this.props.route.params.phoneNumber;
+        const price= this.props.route.params.price;
+
         return(
             <View style={styles.container}>
-                <Text style={styles.titleRe}>Title</Text>
+                <Text style={styles.titleRe}>{title}</Text>
 
                 <View style={styles.textContainer}>
                 <Text style={styles.toDo}>Description:</Text>
-                <Text style={styles.wordsText}>cia va geras itemas</Text>
+                <Text style={styles.wordsText}>{description}</Text>
                 </View>
 
                 <View style={styles.textContainer}>
                 <Text style={styles.toDo}>Price:</Text>
-                <Text style={styles.wordsText}>15,59</Text>
+                <Text style={styles.wordsText}>{price}</Text>
                 </View>
 
                 <View style={styles.textContainer}>
                 <Text style={styles.toDo}>Phone number:</Text>
-                <Text style={styles.wordsText}>866240744</Text>
+                <Text style={styles.wordsText}>{phoneNumber}</Text>
                 </View>
             </View>   
         );

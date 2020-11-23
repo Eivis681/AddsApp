@@ -1,4 +1,4 @@
-import {createUser, insertAdd} from '../../src/helpers/db'
+import {createUser, insertAdd, UpdateAdd} from '../../src/helpers/db'
 
 export const addUser = (username, password) => {
     return async (dispatch) => {
@@ -23,11 +23,13 @@ export const addUser = (username, password) => {
   export const addAdd = (title,description,phoneNumber,price,userId) => {
     return async (dispatch) => {
       try {
+        //alert(userId)
         const dbResult = await insertAdd(title, description, phoneNumber, price, userId);
         console.log(dbResult);
+        
         dispatch({
           type: 'ADD_ADD',
-          payload: {id: dbResult.insertID, title: title, description: description, phoneNumber: phoneNumber, price: price, userId:userId},
+          payload: { id: dbResult.insertId, title: title, description: description, phoneNumber: phoneNumber, price: price, userId:userId},
         });
       } catch (err) {
         console.log(err);
@@ -35,5 +37,24 @@ export const addUser = (username, password) => {
       }
     };
   };
+
+  export const updateAdd = (title,description,phoneNumber,price, id) => {
+    return async (dispatch) => {
+      try {
+        console.log('title'+title)
+        const dbResult = await UpdateAdd(title, description, phoneNumber, price, id);
+        console.log(dbResult);
+        
+        dispatch({
+          type: 'UPDATE_ADD',
+          payload: { id: id, title: title, description: description, phoneNumber: phoneNumber, price: price},
+        });
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+    };
+  };
+
 
   

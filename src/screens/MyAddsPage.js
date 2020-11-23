@@ -1,70 +1,85 @@
 import React, { Component } from "react";
 import {useState} from "react";
-import { StyleSheet, View, Text , TouchableOpacity, ScrollView, Alert, Animated} from "react-native";
+import { StyleSheet, View, Text , TouchableOpacity, ScrollView, Alert} from "react-native";
 import CheckBox from '@react-native-community/checkbox';
 import {connect} from 'react-redux';
 import {showAll} from '../../store/actions/getAction';
 import FadeInView from 'react-native-fade-in-view';
 
-class HomePage extends Component {
+
+class MyAddsPage extends Component {
+   
     componentDidCatch(){
       this.props.showAll();
     }
 
   render(){
+
     const {adds} = this.props;
     const username = this.props.route.params.username; 
- 
+
+    const renderItem = (item,index) =>{
+      if (item.UserId==username)
+      {
+      return(
+        <FadeInView 
+        duration={1000}
+        style={styles.cars} key={index}>
+        <TouchableOpacity
+        onPress={()=> this.props.navigation.navigate('My Item',{
+        id: item.ID,
+        title:item.Title,
+        description:item.Description,
+        phoneNumber: item.PhoneNumber,
+        price: item.Price,
+        })}
+        style={styles.loginBtn} >
+        <Text> {item.Title} </Text>
+        </TouchableOpacity>
+      </FadeInView>
+      );
+      };
+    };
+    
+    
   return (
     <View style={styles.container}>
-        <TouchableOpacity
-                    onPress={()=> this.props.navigation.navigate('My Adds',{
-                      username: username,
-                    })}
-                     style={styles.loginBtn}>
-                    <Text style={styles.loginText}>MY ADVERTISEMENT</Text>
-                </TouchableOpacity>
-              <TouchableOpacity
-                    onPress={()=> this.props.navigation.navigate('Add advertisements',{
-                      username: username,
-                    })}
-                     style={styles.loginBtn}>
-                    <Text style={styles.loginText}>ADD ADVERTISEMENT</Text>
-                </TouchableOpacity>
-
                 <ScrollView style={styles.carsContainer}>
-                  {adds.adds.map((add, index) => (
-                  <FadeInView 
-                  duration={1000}
-                  style={styles.cars} key={index}>
+                  {adds.adds.map((add, index) => 
+                    (
+                      renderItem(add,index)
+                      //   <View style={styles.cars} key={index}>
+                      //   <TouchableOpacity
+                      //   onPress={()=> this.props.navigation.navigate('My Item',{
+                      //   id: add.ID,
+                      //   title:add.Title,
+                      //   description:add.Description,
+                      //   phoneNumber: add.PhoneNumber,
+                      //   price: add.Price,
+                      //   })}
+                      //   style={styles.loginBtn} >
+                      //   <Text> {add.Title} </Text>
+                      //   </TouchableOpacity>
+                      // </View>
+                    )
+                   )}
+                  </ScrollView>
+
+                  {/* {adds.adds.map((add, index) => (
+                  <View style={styles.cars} key={index}>
                     <TouchableOpacity
-                      onPress={()=>{
-                        if (add.UserId==username)
-                        {
-                          this.props.navigation.navigate('My Item',{
-                            id: add.ID,
-                            title:add.Title,
-                            description:add.Description,
-                            phoneNumber: add.PhoneNumber,
-                            price: add.Price,
-                          })
-                        }
-                        else {
-                          this.props.navigation.navigate('Item',{
-                            id: index,
-                            title:add.Title,
-                            description:add.Description,
-                            phoneNumber: add.PhoneNumber,
-                            price: add.Price,
-                          })
-                        }
-                      }}
+                      onPress={()=> this.props.navigation.navigate('My Item',{
+                        id: index,
+                        title:add.Title,
+                        description:add.Description,
+                        phoneNumber: add.PhoneNumber,
+                        price: add.Price,
+                      })}
                       style={styles.loginBtn} >
                       <Text> {add.Title} </Text>
                     </TouchableOpacity>
-                  </FadeInView>
-                   ))}
-                  </ScrollView>
+                  </View>
+                   ))} */}
     </View>
   );
 }
@@ -133,5 +148,5 @@ const styles = StyleSheet.create({
         adds: state.adds,
       };
     };
-export default connect(mapStateToProps,{showAll})(HomePage);
+export default connect(mapStateToProps,{showAll})(MyAddsPage);
 

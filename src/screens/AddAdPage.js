@@ -15,27 +15,19 @@ class AddAdPage extends Component {
             price:"",
       }
     }
-    
-    titleValue=(text)=>{
-        this.setState({
-            title:text,
-        });
-    };
-    descrioptionValue=(text)=>{
-        this.setState({
-            description:text,
-        });
-    };
-    phoneValue=(text)=>{
-        this.setState({
-            phoneNumber:text,
-        });
-    };
-    priceValue=(text)=>{
-        this.setState({
-            price:text,
-        });
-    };
+
+    titleChange(title){
+        this.setState({title});
+    }
+    descriptionChange(description){
+        this.setState({description})
+    }
+    phoneNumberChange(phoneNumber){
+        this.setState({phoneNumber})
+    }
+    priceChange(price){
+        this.setState({price})
+    }
 
     checkIfEmpty  = ()=>{
         const username = this.props.route.params.username;
@@ -57,7 +49,7 @@ class AddAdPage extends Component {
             alert('Please Enter Price');
             return;
         }
-        addAdd(this.state.title,this.state.description,this.state.phoneNumber,this.state.price,username)
+        this.props.addAdd(this.state.title, this.state.description, this.state.phoneNumber, this.state.price, username)
         this.setState({title:'',description:'',phoneNumber:'',price:''})
         Alert.alert(
             'ADD ADVERTISEMENT',
@@ -79,29 +71,33 @@ class AddAdPage extends Component {
             <TextInput  
               style={styles.inputText}
               placeholder="Item name" 
+              value={this.state.title}
               placeholderTextColor="#003f5c"
-              onChangeText={this.titleValue}/>
+              onChangeText={(text)=>this.titleChange(text)}/>
               </View>
               <View style={styles.inputView} >
               <TextInput  
               style={styles.inputText}
               placeholder="Description" 
+              value = {this.state.description}
               placeholderTextColor="#003f5c"
-              onChangeText={this.descrioptionValue}/>
+              onChangeText={(text)=>this.descriptionChange(text)}/>
               </View>
               <View style={styles.inputView} >
               <TextInput  
               style={styles.inputText}
               placeholder="Phone number" 
+              value={this.state.phoneNumber}
               placeholderTextColor="#003f5c"
-              onChangeText={this.phoneValue}/>
+              onChangeText={(text)=>this.phoneNumberChange(text)}/>
               </View>
               <View style={styles.inputView} >
               <TextInput  
               style={styles.inputText}
               placeholder="Price" 
+              value={this.state.price}
               placeholderTextColor="#003f5c"
-              onChangeText={this.priceValue}/>
+              onChangeText={(text)=>this.priceChange(text)}/>
               </View>
                 <TouchableOpacity 
                 onPress={this.checkIfEmpty}
@@ -151,5 +147,3 @@ const mapStateToProps = (state) =>{
     };
 };
 export default connect(mapStateToProps,{addAdd})(AddAdPage);
-
-//

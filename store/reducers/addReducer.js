@@ -5,8 +5,9 @@ const initialState = {
 export const addReducer = (state = initialState, action) => {
     switch (action.type) {
       case 'ADD_ADD':
+        console.log('+'+action.payload.id)
         const newAdd = {
-          ID: action.payload.id,
+          ID : action.payload.id,
           Title: action.payload.title,
           Description: action.payload.description,
           PhoneNumber: action.payload.phoneNumber,
@@ -16,21 +17,28 @@ export const addReducer = (state = initialState, action) => {
         return {
           adds: state.adds.concat(newAdd),
         };
+        case 'UPDATE_ADD':
+          const newArray ={...state.adds}
+          const indexx = state.adds.findIndex((add)=>add.id === action.payload.id)
+          newArray[indexx].title = action.payload.title;
+          newArray[indexx].description = action.payload.description;
+          newArray[indexx].price = action.payload.price;
+          newArray[indexx].phoneNumber = action.payload.phoneNumber;
+          return{
+            ...state, adds: newArray
+          };
       case 'SHOW_ALL':
         const addList = [];
+        alert('jezus')
         for (let i = 0; i < action.payload.length; ++i) {
-          addList.push(action.payload.item(i));
           console.log(action.payload.item(i));
+          addList.push(action.payload.item(i));
         }
         return {adds: [...state.adds, ...addList]};
-      case 'SHOW_MY':
-          const addMyList=[];
-          for (let i=0; i< action.payload.length;i++)
-          {
-
-          }
+      
       case 'DELETE_ADD':
         const index = state.adds.findIndex((add) => add.id === action.payload.id);
+        console.log(action.payload.id);
         return {
           adds: [...state.adds.slice(0, index), ...state.adds.slice(index + 1)],
         };

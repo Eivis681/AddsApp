@@ -1,6 +1,6 @@
 import {deleteAdd} from '../../src/helpers/db'
 
-export const removeCar = (id) => {
+export const removeAdd = (id) => {
     return async (dispatch) => {
       dispatch({type: 'RESET_ADD_LIST', payload: null});
       try {

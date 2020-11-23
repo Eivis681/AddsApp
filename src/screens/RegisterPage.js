@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity, TextInput, Alert} from 'react-
 import 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import {addUser} from "../../store/actions/addAction";
+import {init} from '../helpers/db';
 import {v4 as uuidv4} from 'uuid';
 
 class RegisterPage extends Component {
@@ -52,6 +53,7 @@ class RegisterPage extends Component {
             alert('Passwords does not match');
             return;
         }
+        init();
         this.props.addUser(this.state.username,this.state.password)
 
         Alert.alert(
