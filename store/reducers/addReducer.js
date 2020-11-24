@@ -18,18 +18,18 @@ export const addReducer = (state = initialState, action) => {
           adds: state.adds.concat(newAdd),
         };
         case 'UPDATE_ADD':
-          const newArray ={...state.adds}
-          const indexx = state.adds.findIndex((add)=>add.id === action.payload.id)
-          newArray[indexx].title = action.payload.title;
-          newArray[indexx].description = action.payload.description;
-          newArray[indexx].price = action.payload.price;
-          newArray[indexx].phoneNumber = action.payload.phoneNumber;
+          var newArray =[...state.adds];
+          state.adds=[];
+          var indexx = newArray.findIndex((add) => add.ID === action.payload.id);
+          newArray[indexx].Title = action.payload.title;
+          newArray[indexx].Description = action.payload.description;
+          newArray[indexx].Price = action.payload.price;
+          newArray[indexx].PhoneNumber = action.payload.phoneNumber;
           return{
-            ...state, adds: newArray
+            adds: newArray
           };
       case 'SHOW_ALL':
-        const addList = [];
-        alert('jezus')
+        var addList = [];
         for (let i = 0; i < action.payload.length; ++i) {
           console.log(action.payload.item(i));
           addList.push(action.payload.item(i));
@@ -37,10 +37,12 @@ export const addReducer = (state = initialState, action) => {
         return {adds: [...state.adds, ...addList]};
       
       case 'DELETE_ADD':
-        const index = state.adds.findIndex((add) => add.id === action.payload.id);
-        console.log(action.payload.id);
+        var array =[...state.adds];
+        const index = array.findIndex((add) => add.ID === action.payload.id);
+        console.log('deleted id ' + index)
+        array.splice(index,1);
         return {
-          adds: [...state.adds.slice(0, index), ...state.adds.slice(index + 1)],
+          adds: array,
         };
       case 'RESET_ADD_LIST':
         return {adds: []};

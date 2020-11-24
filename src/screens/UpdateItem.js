@@ -62,18 +62,20 @@ class UpdateItem extends Component {
             alert('Passwords does not match');
             return;
         }
-        //alert(this.state.description);
-        this.props.updateAdd(this.state.title, this.state.description, this.state.phoneNumber, this.state.price,id)
-        // Alert.alert(
-        //     'UPDATE ADVERTISEMENT',
-        //     'Your item has been successfully updated',
-        //     [
-        //         {
-        //             text: 'OK',
-        //             onPress: () =>this.props.navigation.goBack()
-        //         },
-        //     ]
-        // )
+
+        Alert.alert(
+            'UPDATE ADVERTISEMENT',
+            'Your item has been successfully updated',
+            [
+                {
+                    text: 'OK',
+                    onPress: () =>{
+                        this.props.navigation.navigate('Home'),
+                        this.props.updateAdd(this.state.title, this.state.description, this.state.phoneNumber, this.state.price,id)
+                    }
+                },
+            ]
+        )
       };
 
     render(){
@@ -162,4 +164,3 @@ const mapStateToProps = (state)=>{
   };
 
 export default connect(mapStateToProps,{updateAdd})(UpdateItem);
-//UpdateItem;

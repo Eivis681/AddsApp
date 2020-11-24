@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import {useState} from "react";
-import { StyleSheet, View, Text , TouchableOpacity, ScrollView, Alert, Animated} from "react-native";
-import CheckBox from '@react-native-community/checkbox';
+import { StyleSheet, View, Text , TouchableOpacity, ScrollView, Alert} from "react-native";
 import {connect} from 'react-redux';
 import {showAll} from '../../store/actions/getAction';
 import FadeInView from 'react-native-fade-in-view';
